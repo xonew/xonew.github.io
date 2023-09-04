@@ -1,10 +1,7 @@
 const leftButton = document.getElementById("leftButton");
 const rightButton = document.getElementById("rightButton");
-const fishImages = {
-    blue: ["bluefishright.png", "bluefishleft.png"],
-    pink: ["pinkfishright.png", "pinkfishleft.png"]
-};
-const fishElements = document.querySelectorAll(".fish");
+//fishImages: 1 through 16, correct left answers are odd, vice versa, corresponding success image is +8 away
+const fish = document.getElementById("fish");
 let playCount = 0;
 let wins = 0;
 let setup = true;
@@ -20,45 +17,50 @@ function updateWins() {
 }
 
 function playWinSound() {
-    document.getElementById("winSound").src = "audio" + (Math.floor(Math.random() * 8)+1) + ".wav";
+    document.getElementById("winSound").src = "./assets/sounds/audio" + (Math.floor(Math.random() * 8)+1) + ".wav";
     document.getElementById("winSound").play();
 }
 
 function setupFishImages() {
-    const randomColor = Math.random() < 0.5 ? "blue" : "pink";
-    const randomOuterFish = Math.random() < 0.5 ? 0 : 1;
-    const randomInnerFish = Math.random() < 0.5 ? 0 : 1;
-    fishElements.forEach((fishElement) => {
-        fishElement.src = fishImages[randomColor][randomOuterFish];
-        fishElement.alt = randomOuterFish === 0 ? randomColor + " right" : randomColor + " left";
-    });
-    fishElements[2].src = fishImages[randomColor][randomInnerFish];
-    fishElements[2].alt = randomInnerFish === 0 ? randomColor + " right" : randomColor + " left";
+    const id = Math.floor(Math.random()*8) + 1
+    fish.src = "./assets/fish/" + String(id) + ".png";
+    fish.alt = id;
     setup = false;
 }
 
-function checkFishColor(dir) {
+async function checkCorrect(dir) {
     setup = true;
     updatePlayCounter();
-    const isBlue = fishElements[0].src.includes("blue");
-    const isCorrect = isBlue ? (fishElements[2].alt.includes(dir)) : (fishElements[0].alt.includes(dir));
-    const message = isCorrect ? "Correct!" : "Try again!";
+    const isCorrect = (fish.alt % 2 === 0) ? dir === "left" : dir === "right";
     if (isCorrect) {
+        fish.src = "./assets/fish/" + (Number(fish.alt) + 8) + ".png";
+        fish.alt = fish.alt + 8;
         playWinSound();
         updateWins();
     } else {
         document.getElementById("lossSound").play();
     }
-    alert(message);
+    await showMessage(isCorrect ? "Correct!" : "Try Again!", 1000);
     setupFishImages();
 }
 
+async function showMessage(message, duration) {
+    const successMessage = document.getElementById("successMessage");
+    successMessage.textContent = message;
+    successMessage.style.display = "block";
+    await new Promise((resolve) => setTimeout(function () {
+        successMessage.style.display = "none";
+        resolve();
+    }, duration));
+    
+}
+
 leftButton.addEventListener("click", () => {
-    if (setup === false) checkFishColor("left");
+    if (setup === false) checkCorrect("left");
 });
 
 rightButton.addEventListener("click", () => {
-    if (setup === false) checkFishColor("right");
+    if (setup === false) checkCorrect("right");
 });
 
 setupFishImages();

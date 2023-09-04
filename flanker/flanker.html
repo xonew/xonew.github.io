@@ -9,18 +9,15 @@
 <body>
     <div class="game-container">
         <audio id="winSound" autoplay="false" preload="auto"></audio>
-        <audio id="lossSound" src="oopsie.wav" autoplay="false" preload="auto"></audio>
+        <audio id="lossSound" src="./assets/sounds/oopsie.wav" autoplay="false" preload="auto"></audio>
 
         <div class="instructions">Click the direction of the innermost fish if they are blue! <br> Click the direction of the outer fish if they are pink!</div>
         <br>
         <div id="playCounter">Times Played: <span id="counterValue">0</span></div>
         <div id="winCounter">Correct Answers: <span id="wins">0</span></div>
-        <img alt="Error" class="fish">
-        <img alt="Error" class="fish">
-        <img alt="Error" class="fish">
-        <img alt="Error" class="fish">
-        <img alt="Error" class="fish">
-        
+        <img alt="Error" id="fish">
+        <div id="successMessage" style="display: none;"></div>
+
         <button id="leftButton">&lt;=</button>
         <button id="rightButton">=&gt;</button>
     </div>
