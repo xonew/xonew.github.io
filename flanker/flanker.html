@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flanker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <audio id="winSound" autoplay="false" preload="auto"></audio>
+        <audio id="lossSound" src="oopsie.wav" autoplay="false" preload="auto"></audio>
+
+        <div class="instructions">Click the direction of the innermost fish if they are blue! <br> Click the direction of the outer fish if they are pink!</div>
+        <br>
+        <div id="playCounter">Times Played: <span id="counterValue">0</span></div>
+        <div id="winCounter">Correct Answers: <span id="wins">0</span></div>
+        <img alt="Error" class="fish">
+        <img alt="Error" class="fish">
+        <img alt="Error" class="fish">
+        <img alt="Error" class="fish">
+        <img alt="Error" class="fish">
+        
+        <button id="leftButton">&lt;=</button>
+        <button id="rightButton">=&gt;</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
